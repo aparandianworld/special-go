@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"regexp"
+	"strings"
 )
 
 func main() {
@@ -18,24 +18,24 @@ func main() {
 		"https://coderpad.io",
 	}
 
-	result1 := countURLsWithTLD(urls, ".com")
-	fmt.Println("Result for TLD .com: ", result1)
+	tlds := []string{".com", ".net", ".io"}
 
-	result2 := countURLsWithTLD(urls, ".net")
-	fmt.Println("Result for TLD .net: ", result2)
-
-	result3 := countURLsWithTLD(urls, ".io")
-	fmt.Println("Result for TLD .io: ", result3)
+	for _, tld := range tlds {
+		count := countURLsWithTLD(urls, tld)
+		fmt.Printf("Number of URLs with TLD %s: %d\n", tld, count)
+	}
 }
 
 func countURLsWithTLD(urls []string, tld string) int {
-	count := 0
-	pattern := tld + "$"
 
-	re := regexp.MustCompile(pattern)
+	if len(urls) == 0 || tld == "" {
+		return 0
+	}
+
+	count := 0
 
 	for _, url := range urls {
-		if re.MatchString(url) {
+		if strings.HasSuffix(url, tld) {
 			count++
 		}
 	}
