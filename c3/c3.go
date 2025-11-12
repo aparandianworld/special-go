@@ -10,8 +10,8 @@ func main() {
 	fmt.Println("module: c3")
 	fmt.Println("version: 0.0.1")
 
-	sentence := "I can't do this activity due to time and resources."
-	negativeWords := []string{"can't", "not"}
+	sentence := "I can't do this. I'm not good at this. This is hard."
+	negativeWords := []string{"can't", "not", "hard"}
 
 	result := improveSentence(sentence, negativeWords)
 
@@ -24,26 +24,15 @@ func improveSentence(sentence string, negativeWords []string) string {
 		return sentence
 	}
 
-	negativeWordsString := strings.Join(negativeWords, " ")
+	result := sentence
 
-	words := strings.Split(sentence, " ")
+	for _, word := range negativeWords {
 
-	log.Println("DEBUG: words:", words)
-	log.Println("DEBUG: negativeWordsString:", negativeWordsString)
-
-	for index, word := range words {
-
-		for _, negWord := range negativeWords {
-
-			if strings.EqualFold(word, negWord) {
-				words[index] = strings.Repeat("*", len(negWord))
-				break
-			}
-
-		}
+		asterisks := strings.Repeat("*", len(word))
+		result = strings.Replace(result, word, asterisks, -1)
 	}
 
-	log.Println("DEBUG: words:", words)
+	log.Println("DEBUG improveSentence result: ", result)
 
-	return strings.Join(words, " ")
+	return result
 }
